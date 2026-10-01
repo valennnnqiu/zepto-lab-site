@@ -31,6 +31,7 @@
 }
 html { scroll-behavior: smooth; }
 body { margin: 0; }
+[hidden] { display: none !important; }
 body { background: var(--bg); color: var(--fg); font-family: var(--display); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 a { color: inherit; }
 ::selection { background: var(--accent); color: #fff; }
@@ -237,8 +238,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .send:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(22,39,255,.3); }
 .form-note { color: var(--muted); font-size: 14px; margin: 0; }
 .err { color: #C4321C; font-size: 14px; min-height: 1.2em; margin: 0; }
-.sent { border-radius: 28px; background: var(--surface); border: 1px solid var(--line); padding: clamp(28px, 4vw, 48px); display: grid; gap: 12px; }
-.sent b { font-size: clamp(32px, 4vw, 56px); letter-spacing: -.05em; line-height: 1; font-weight: 600; }
 .aside { display: grid; gap: 28px; position: sticky; top: 120px; }
 .aside .slot2 { width: clamp(160px, 20vw, 260px); aspect-ratio: 1; }
 .aside .item { display: grid; gap: 6px; border-top: 1px solid var(--line); padding-top: 16px; }
@@ -603,7 +602,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
           <button class="send" type="submit">Send message <span>→</span></button>
           <p class="form-note">Sending opens your email app with the message filled in.</p>
         </form>
-        <div class="sent" id="sent" hidden><span class="eyebrow">Almost there</span><b>Press send in your email app.</b><p class="form-note">Your message is filled in and ready to go. If nothing opened, email us at <a href="mailto:valen.jy.qiu@gmail.com">valen.jy.qiu@gmail.com</a>. We reply within 48 hours.</p></div>
       </div>
       <aside class="aside">
         <div class="slot2" data-flask-end aria-hidden="true"></div>
@@ -1274,7 +1272,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const d = new FormData(form), types = d.getAll('type').join(', ');
     const lines = [['Name', d.get('name')], ['Email', d.get('email')], ['Company', d.get('company')], ['Needs', types], ['Budget', d.get('budget')], ['Timeline', d.get('timeline')]].filter(([, v]) => v && v.trim()).map(([k, v]) => `${k}: ${v.trim()}`);
     location.href = `mailto:valen.jy.qiu@gmail.com?subject=${encodeURIComponent(`New project: ${(d.get('company') || d.get('name')).trim()}`)}&body=${encodeURIComponent(`${lines.join('\n')}\n\n${d.get('message').trim()}`)}`;
-    form.hidden = true; document.getElementById('sent').hidden = false;
   });
 
   /* ================= loop ================= */
