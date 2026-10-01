@@ -648,7 +648,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   // one project list feeds the home wall, the Work page, and the case-study template
   const PROJECTS = [
     { slug: 'chantmily', name: 'Chantmily', cat: 'UI/UX', f: ['ui'], kind: 'grid', tint: [214, 186, 170],
-      case: { line: 'A Shopify storefront, designed and built end to end. [Placeholder line: replace with the real outcome.]', services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'] } },
+      case: { line: 'A Shopify storefront, designed and built end to end.', services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'] } },
     { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184] },
     { slug: 'icicle', name: 'ICICLE', cat: 'UI/UX', f: ['ui'], kind: 'icicle', tint: [196, 206, 222] },
     { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176] },
@@ -1139,17 +1139,16 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const p = projectBySlug(slug) || PROJECTS[0];
     const idx = PROJECTS.indexOf(p), next = PROJECTS[(idx + 1) % PROJECTS.length];
     const c = p.case || {};
-    const ph = t => t || '<span style="color:var(--faint)">[Add copy]</span>';
     document.getElementById('case-root').innerHTML = `
-      <header class="pg-head"><span class="eyebrow">Case study · ${p.cat}</span><h1>${p.name}</h1><p>${ph(c.line)}</p></header>
+      <header class="pg-head"><span class="eyebrow">Case study · ${p.cat}</span><h1>${p.name}</h1>${c.line ? `<p>${c.line}</p>` : ''}</header>
       <div class="wrap">
         <div class="case-meta reveal">
           <div><span class="mono">Client</span><b>${p.name}</b></div>
           <div><span class="mono">Services</span><b>${c.services || p.cat}</b></div>
         </div>
         <div class="case-img reveal"><canvas></canvas><span class="mono ph">Hero image placeholder</span></div>
-        <section class="case-sec reveal"><span class="eyebrow">The brief</span><div><p>${ph(c.brief)}</p></div></section>
-        <section class="case-sec reveal"><span class="eyebrow">What we did</span><div><p>${ph(c.did)}</p><ul class="tags">${(c.tags || ['[Deliverable]', '[Deliverable]', '[Deliverable]']).map(t => `<li>${t}</li>`).join('')}</ul></div></section>
+        ${c.brief ? `<section class="case-sec reveal"><span class="eyebrow">The brief</span><div><p>${c.brief}</p></div></section>` : ''}
+        ${c.did || c.tags ? `<section class="case-sec reveal"><span class="eyebrow">What we did</span><div>${c.did ? `<p>${c.did}</p>` : ''}${c.tags ? `<ul class="tags">${c.tags.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}</div></section>` : ''}
         <div class="gallery reveal"><div><canvas></canvas><span class="mono ph">Process image</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div></div>
       </div>
       <a class="next" href="#p-case-${next.slug}" data-view><span class="eyebrow">Next project</span><b>${next.name}</b></a>`;
