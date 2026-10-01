@@ -319,9 +319,8 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .card .vis { position: relative; margin: clamp(20px, 2.6vw, 40px) clamp(20px, 2.6vw, 40px) 0 0; border-radius: 22px 22px 0 0; overflow: hidden; background: #E2E2DF; min-width: 0; }
 .card .vis-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
 .card .vis-video.center { object-position: 50% 50%; }
-.card a.vis { display: block; color: inherit; text-decoration: none; }
 .card .vis .ph { position: absolute; left: 14px; bottom: 12px; }
-.card .vis .ph.proj { z-index: 1; font-size: 11px; color: var(--ink); background: rgba(246,246,244,.85); padding: 6px 10px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.card .vis .ph.proj { z-index: 1; font-size: 11px; color: var(--ink); background: rgba(246,246,244,.85); padding: 6px 10px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); text-decoration: none; }
 .card .vis .ph.proj i { font-style: normal; }
 @media (max-width: 760px) {
   .card { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: 78svh; min-height: 0; top: calc(env(safe-area-inset-top, 0px) + 72px + var(--i) * 16px); border-radius: 22px; }
@@ -473,19 +472,19 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     <div class="stack">
       <article class="card" style="--i:0">
         <div class="txt"><span class="num">01</span><div class="bottom"><h3>Branding Strategy</h3><p>Build brands designed for long-term growth, guided by a consulting mindset. From identity systems to campaigns and content, we keep every touchpoint consistent, relevant, and scalable over time.</p><ul class="tags"><li>Identity</li><li>Campaigns</li><li>Content</li></ul></div></div>
-        <a class="vis" data-kind="brand" href="#p-case-t-soup" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/brand.jpg" src="assets/services/brand.mp4"></video><span class="mono ph proj">T-Soup <i>→</i></span></a>
+        <div class="vis" data-kind="brand"><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/brand.jpg" src="assets/services/brand.mp4"></video><a class="mono ph proj" href="#p-case-t-soup">T-Soup <i>→</i></a></div>
       </article>
       <article class="card" style="--i:1">
         <div class="txt"><span class="num">02</span><div class="bottom"><h3>Product Design</h3><p>Design products that balance form, use, and feasibility. We stay involved from concept to production to ensure ideas are intentional and buildable.</p><ul class="tags"><li>ID</li><li>CMF</li><li>Prototype</li></ul></div></div>
-        <a class="vis" data-kind="product" href="#p-case-angel" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/product.jpg" src="assets/services/product.mp4"></video><span class="mono ph proj">Angel <i>→</i></span></a>
+        <div class="vis" data-kind="product"><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/product.jpg" src="assets/services/product.mp4"></video><a class="mono ph proj" href="#p-case-angel">Angel <i>→</i></a></div>
       </article>
       <article class="card" style="--i:2">
         <div class="txt"><span class="num">03</span><div class="bottom"><h3>UI/UX Design</h3><p>Design digital experiences shaped by real human behavior, from web and app interfaces to Shopify storefronts. We take stores from first wireframe to live launch.</p><ul class="tags"><li>Shopify</li><li>Web</li><li>App</li></ul></div></div>
-        <a class="vis" data-kind="ui" href="#p-case-chantmily" data-view><video class="vis-video" muted loop playsinline preload="metadata" poster="assets/services/ui.jpg" src="assets/services/ui.mp4"></video><span class="mono ph proj">Chantmily <i>→</i></span></a>
+        <div class="vis" data-kind="ui"><video class="vis-video" muted loop playsinline preload="metadata" poster="assets/services/ui.jpg" src="assets/services/ui.mp4"></video><a class="mono ph proj" href="#p-case-chantmily">Chantmily <i>→</i></a></div>
       </article>
       <article class="card" style="--i:3">
         <div class="txt"><span class="num">04</span><div class="bottom"><h3>Toy Design</h3><p>Design toys across categories and production contexts. We work with trusted factories and certifications to turn diverse ideas into compliant products.</p><ul class="tags"><li>Collectibles</li><li>Packaging</li><li>Production</li></ul></div></div>
-        <a class="vis" data-kind="toy" href="#p-case-3chaos-snk" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/toy.jpg" src="assets/services/toy.mp4"></video><span class="mono ph proj">3Chaos x SNK <i>→</i></span></a>
+        <div class="vis" data-kind="toy"><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/toy.jpg" src="assets/services/toy.mp4"></video><a class="mono ph proj" href="#p-case-3chaos-snk">3Chaos x SNK <i>→</i></a></div>
       </article>
     </div>
   </section>
