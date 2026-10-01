@@ -987,9 +987,13 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 
   /* ================= cursor ================= */
   const cur = document.getElementById('cursor');
+  const curTag = cur.querySelector('.tag');
   addEventListener('pointermove', e => {
     cur.style.transform = `translate(${e.clientX}px,${e.clientY}px)`;
-    cur.classList.toggle('hot', !!(e.target.closest && e.target.closest('[data-view]')));   // only project cards get the VIEW label
+    // project cards get a VIEW label, the flask gets CLICK ME
+    const t = e.target.closest ? (e.target.closest('[data-view]') ? 'View' : e.target.closest('#hero-slot, #flask-hit') ? 'Click me' : '') : '';
+    if (t && curTag.textContent !== t) curTag.textContent = t;
+    cur.classList.toggle('hot', !!t);
   });
   addEventListener('pointerdown', () => cur.classList.add('down'));
   addEventListener('pointerup', () => cur.classList.remove('down'));
