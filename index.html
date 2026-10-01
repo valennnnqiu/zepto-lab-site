@@ -365,10 +365,11 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .clients { padding-block: clamp(80px, 12vh, 140px) clamp(48px, 8vh, 96px); overflow: hidden; }
 .logo-belt-wrap { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent); }
 .logo-belt { display: flex; gap: 14px; width: max-content; will-change: transform; padding-block: 8px; }
-.logo { flex: 0 0 clamp(200px, 19vw, 300px); height: clamp(120px, 15svh, 160px); border-radius: 20px; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; padding: 20px; text-align: center; transition: border-color .3s, background .3s; }
-.logo b { font-size: clamp(20px, 2vw, 30px); font-weight: 600; letter-spacing: -.045em; line-height: 1; color: var(--faint); transition: color .3s; }
-.logo:hover { border-color: var(--accent); background: #fff; }
-.logo:hover b { color: var(--ink); }
+.logo { flex: 0 0 clamp(200px, 19vw, 300px); height: clamp(120px, 15svh, 160px); border-radius: 20px; background: #fff; border: 1px solid var(--line); display: grid; place-items: center; padding: 16px 24px; box-sizing: border-box; transition: border-color .3s; }
+/* logos rest in grey and take their own colour on hover */
+.logo img { max-width: 100%; max-height: 100%; min-height: 0; object-fit: contain; filter: grayscale(1); opacity: .6; transition: filter .3s, opacity .3s; }
+.logo:hover { border-color: var(--accent); }
+.logo:hover img { filter: none; opacity: 1; }
 @keyframes rise { to { transform: translateY(-50%); } }
 
 /* ---------- contact ---------- */
@@ -999,10 +1000,11 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   }
 
   /* ================= clients: logo belt ================= */
-  const clients = ['OPPO', 'Vanke', 'Giant Network', 'Tsingtao', 'Cisco', 'Angel', 'Triple Aught Design', '3Chaos', 'Kidsme', 'ICICLE', 'Sanhang'];
+  const clients = [['OPPO', 'oppo.avif'], ['Vanke', 'vanke.avif'], ['Giant Network', 'giant-network.avif'], ['Tsingtao', 'tsingtao.png'], ['Cisco', 'cisco.avif'], ['Angel', 'angel.avif'], ['Triple Aught Design', 'tad.avif'], ['3Chaos', '3chaos.avif'], ['Kidsme', 'kidsme.avif'], ['ICICLE', 'icicle.avif'], ['Sanhang', 'sanhang.avif']];
   const lbelt = document.getElementById('logo-belt');
   const lwrap = document.getElementById('logo-belt-wrap');
-  lbelt.innerHTML = clients.map(n => `<div class="logo"><b>${n}</b></div>`).join('') + clients.map(n => `<div class="logo" aria-hidden="true"><b>${n}</b></div>`).join('');
+  const logoHTML = hidden => clients.map(([n, f]) => `<div class="logo"${hidden ? ' aria-hidden="true"' : ''}><img src="assets/logos/${f}" alt="${hidden ? '' : n}"></div>`).join('');
+  lbelt.innerHTML = logoHTML(false) + logoHTML(true);
   const logos = [...lbelt.children];
   let beltX = 0, setW = 0, speed = 0, hovering = false, lastScroll = scrollY, lastT = performance.now(), scrollVel = 0;
   function sizeBelt() { setW = logos[clients.length].offsetLeft - logos[0].offsetLeft; }
