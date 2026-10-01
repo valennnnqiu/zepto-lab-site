@@ -258,7 +258,6 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .statement { position: relative; height: 260svh; }
 .statement .pin { display: grid; place-content: center; justify-items: center; text-align: center; gap: 24px; padding-inline: var(--gutter); }
 .statement .eyebrow { position: relative; z-index: 1; }
-#rays { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0; transition: opacity .4s; }
 .statement h1 { position: relative; z-index: 1; margin: 0; font-size: clamp(46px, 8.4vw, 136px); line-height: .92; letter-spacing: -.06em; font-weight: 600; max-width: 13ch; text-wrap: balance; }
 .statement .w { display: inline-block; white-space: pre; will-change: filter, opacity, transform; }
 .readout { position: absolute; left: var(--gutter); bottom: calc(env(safe-area-inset-bottom, 0px) + 26px); display: flex; gap: 28px; font-variant-numeric: tabular-nums; color: #fff; }
@@ -441,7 +440,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 
   <section class="statement" id="statement" aria-label="About Zepto Lab">
     <div class="pin" id="statement-pin">
-      <canvas id="rays" aria-hidden="true"></canvas>
       <span class="eyebrow">About Zepto Lab</span>
       <h1 id="hero-title">Transforming brands into tomorrow's impactful futures.</h1>
     </div>
@@ -639,130 +637,8 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   const words = [...heroTitle.querySelectorAll('.w')];
   const statement = document.getElementById('statement');
   const hint = document.getElementById('hint');
-  /* volumetric light: once the headline is revealed, a light follows the pointer and the letters cast
-     grainy, spectral shadows (same technique as the portfolio's Zepto hero, retuned for the light page) */
-  const rays = document.getElementById('rays');
-  const sPin = document.getElementById('statement-pin');
-  const rgl = rays.getContext('webgl', { alpha: false, antialias: false, depth: false, stencil: false });
-  const RV = { built: false, W: 0, H: 0, tx: 0, ty: 0, lx: 0, ly: 0, active: 0, inside: false };
-  let rProg = null, rU = {}, rTex = null;
-  const rMaskCv = document.createElement('canvas');
-  if (rgl) {
-    const SAMPLES = 64;
-    const VERT = 'attribute vec2 position; void main(){ gl_Position = vec4(position, 0.0, 1.0); }';
-    const FRAG = `precision highp float;
-      uniform vec2 resolution; uniform vec2 mouse; uniform sampler2D src;
-      uniform vec3 textColor; uniform vec3 bgColor; uniform vec3 shadowColor;
-      uniform float lightSize; uniform float lightFalloff; uniform float shadowStrength;
-      uniform float rainbow; uniform float dither; uniform float lightActive;
-      #define PI 3.141593
-      #define SAMPLES ${SAMPLES.toFixed(1)}
-      float hash(vec2 p){ return fract(sin(dot(p, vec2(489., 589.))) * 492.) * 2. - 1.; }
-      float hash(vec3 p){ return fract(sin(dot(p, vec3(489., 589., 58.))) * 492.) * 2. - 1.; }
-      vec2 hash2(vec3 p){ return vec2(hash(p), hash(p + 1.)); }
-      vec4 readTex(vec2 uv){ if (uv.x < 0. || uv.x > 1. || uv.y < 0. || uv.y > 1.) return vec4(0); return texture2D(src, uv); }
-      vec3 spectrum(float x){ return cos((x - vec3(0, .5, 1)) * vec3(.6, 1., .5) * PI); }
-      void main(){
-        vec2 uv = gl_FragCoord.xy / resolution;
-        float mask = readTex(uv).r;
-        vec2 p = uv * 2. - 1.; p.x *= resolution.x / resolution.y;
-        vec2 mp = mouse / resolution; mp = mp * 2. - 1.; mp.x *= resolution.x / resolution.y;
-        vec2 rp = p; vec2 d = (mp - p) / SAMPLES; float acc = 0.;
-        for (float i = 0.; i < SAMPLES; i++) {
-          rp += d; rp += hash2(vec3(rp, i)) * .5 / SAMPLES;
-          vec2 uv2 = rp; uv2.x /= resolution.x / resolution.y; uv2 = uv2 * .5 + .5;
-          acc += readTex(uv2).r / SAMPLES;
-        }
-        float lm = length(p - mp);
-        float falloff = smoothstep(0., 1., pow(lightSize / lm, lightFalloff));
-        float shade = acc * shadowStrength * falloff * lightActive;
-        vec3 rainbowCol = spectrum(cos(acc * 3.5)) * acc * rainbow * falloff * lightActive;
-        // the portfolio's spectral light, multiplied onto the light page so it tints instead of muddying
-        vec3 hue = clamp(spectrum(1. - clamp(acc * 1.6, 0., .55)), 0., 1.);   // deep blue at the edges, cyan close to the letters
-        hue = mix(hue, vec3(.086, .153, 1.), .35);                              // pulled toward #1627FF
-        float a = smoothstep(0., .75, clamp(acc * rainbow * falloff * lightActive, 0., 1.));
-        a = clamp(a * (1. + hash(vec3(uv.xyy)) * dither), 0., 1.);
-        vec3 col = mix(bgColor, hue, a * .88);
-        gl_FragColor = vec4(col, 1.);   // the real DOM headline sits on top, so the shader only paints light and shadow
-      }`;
-    const comp = (t, src) => { const sh = rgl.createShader(t); rgl.shaderSource(sh, src); rgl.compileShader(sh); return rgl.getShaderParameter(sh, rgl.COMPILE_STATUS) ? sh : null; };
-    const vs = comp(rgl.VERTEX_SHADER, VERT), fs = comp(rgl.FRAGMENT_SHADER, FRAG);
-    if (vs && fs) {
-      rProg = rgl.createProgram(); rgl.attachShader(rProg, vs); rgl.attachShader(rProg, fs); rgl.linkProgram(rProg);
-      if (!rgl.getProgramParameter(rProg, rgl.LINK_STATUS)) rProg = null;
-    }
-    if (rProg) {
-      rgl.useProgram(rProg);
-      const buf = rgl.createBuffer(); rgl.bindBuffer(rgl.ARRAY_BUFFER, buf);
-      rgl.bufferData(rgl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), rgl.STATIC_DRAW);
-      const pl = rgl.getAttribLocation(rProg, 'position'); rgl.enableVertexAttribArray(pl); rgl.vertexAttribPointer(pl, 2, rgl.FLOAT, false, 0, 0);
-      rTex = rgl.createTexture(); rgl.bindTexture(rgl.TEXTURE_2D, rTex);
-      [rgl.TEXTURE_WRAP_S, rgl.TEXTURE_WRAP_T].forEach(k => rgl.texParameteri(rgl.TEXTURE_2D, k, rgl.CLAMP_TO_EDGE));
-      [rgl.TEXTURE_MIN_FILTER, rgl.TEXTURE_MAG_FILTER].forEach(k => rgl.texParameteri(rgl.TEXTURE_2D, k, rgl.LINEAR));
-      ['resolution', 'mouse', 'src', 'textColor', 'bgColor', 'shadowColor', 'lightSize', 'lightFalloff', 'shadowStrength', 'rainbow', 'dither', 'lightActive'].forEach(n => rU[n] = rgl.getUniformLocation(rProg, n));
-    }
-  }
-  if (!rProg) rays.hidden = true;
-  function buildRays() {   // paint the headline, exactly as laid out, into the mask the shader reads
-    if (!rProg) return;
-    const r = sPin.getBoundingClientRect(); if (!r.width || !r.height) return;
-    const dpr = Math.min(2, devicePixelRatio || 1);
-    RV.W = Math.round(r.width); RV.H = Math.round(r.height);
-    rays.width = Math.round(RV.W * dpr); rays.height = Math.round(RV.H * dpr); rgl.viewport(0, 0, rays.width, rays.height);
-    rMaskCv.width = rays.width; rMaskCv.height = rays.height;
-    const o = rMaskCv.getContext('2d'); o.setTransform(dpr, 0, 0, dpr, 0, 0);
-    o.clearRect(0, 0, RV.W, RV.H); o.fillStyle = '#fff'; o.textBaseline = 'alphabetic';
-    const cs = getComputedStyle(heroTitle), fsz = parseFloat(cs.fontSize);
-    o.font = `${cs.fontWeight} ${fsz}px ${cs.fontFamily}`; if ('letterSpacing' in o) o.letterSpacing = '0px';
-    const asc = o.measureText('M').fontBoundingBoxAscent || fsz * .95, rg = document.createRange();
-    words.forEach(w => {
-      const node = w.firstChild, txt = node ? node.textContent : '';
-      for (let i = 0; i < txt.length; i++) {
-        if (txt[i] === ' ') continue;
-        rg.setStart(node, i); rg.setEnd(node, i + 1); const q = rg.getBoundingClientRect();
-        o.fillText(txt[i], q.left - r.left, q.top - r.top + asc);
-      }
-    });
-    rgl.bindTexture(rgl.TEXTURE_2D, rTex); rgl.pixelStorei(rgl.UNPACK_FLIP_Y_WEBGL, true);
-    rgl.texImage2D(rgl.TEXTURE_2D, 0, rgl.RGBA, rgl.RGBA, rgl.UNSIGNED_BYTE, rMaskCv);
-    RV.built = true;
-    if (!RV.lx && !RV.ly) { RV.lx = RV.W * .5; RV.ly = RV.H * .14; }
-  }
-  sPin.addEventListener('pointermove', e => { const r = sPin.getBoundingClientRect(); RV.tx = e.clientX - r.left; RV.ty = r.height - (e.clientY - r.top); RV.inside = true; });
-  sPin.addEventListener('pointerleave', () => { RV.inside = false; });
-  function drawRays(reveal) {
-    if (!rProg) return;
-    const r = sPin.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > innerHeight) return;
-    if (reveal > .99 && !RV.built) buildRays();
-    if (!RV.built) { rays.style.opacity = 0; return; }
-    rays.style.opacity = 1;
-    // pointer drives the light; without one (touch, idle) it rests low and centred so the effect still reads
-    if (!RV.inside) { RV.tx = RV.W * .5; RV.ty = RV.H * .14; }
-    RV.lx += (RV.tx - RV.lx) * (RV.inside ? 1 : .05); RV.ly += (RV.ty - RV.ly) * (RV.inside ? 1 : .05);
-    const target = reveal > .99 ? (RV.inside ? 1 : .8) : 0;
-    RV.active += (target - RV.active) * .12;
-    const sx = rays.width / Math.max(1, RV.W), sy = rays.height / Math.max(1, RV.H);
-    rgl.useProgram(rProg);
-    rgl.uniform2f(rU.resolution, rays.width, rays.height);
-    rgl.uniform2f(rU.mouse, RV.lx * sx, RV.ly * sy);
-    rgl.uniform3f(rU.textColor, .137, .137, .137);          // #232323
-    rgl.uniform3f(rU.bgColor, .925, .925, .918);            // #ECECEA
-    rgl.uniform3f(rU.shadowColor, 0., 0., 0.);
-    rgl.uniform1f(rU.lightActive, RV.active);
-    rgl.uniform1f(rU.lightSize, .9);
-    rgl.uniform1f(rU.lightFalloff, .6);
-    rgl.uniform1f(rU.shadowStrength, 1.2);
-    rgl.uniform1f(rU.rainbow, 4.5);
-    rgl.uniform1f(rU.dither, .6);
-    rgl.uniform1i(rU.src, 0);
-    rgl.activeTexture(rgl.TEXTURE0); rgl.bindTexture(rgl.TEXTURE_2D, rTex);
-    rgl.drawArrays(rgl.TRIANGLES, 0, 3);
-  }
   function drawIntro() {
     hint.style.opacity = 1 - clamp(scrollY / 120);
-    const sp = secP(statement);
-    drawRays(clamp(sp / .8));
     // word-by-word scroll reveal: blurred and dim until the scroll reaches each word
     const rv = clamp(secP(statement) / .8) * (words.length + 1.5);
     words.forEach((w, i) => {
@@ -1196,7 +1072,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     document.querySelectorAll('[data-route][aria-current]').forEach(a => a.setAttribute('aria-current', 'page'));
     scrollTo({ top: 0, behavior: 'instant' });
     lastScroll = 0; navEl.classList.remove('hide');
-    if (route === 'home') { RV.built = false; requestAnimationFrame(() => { sizeBelt(); paintAll(); paintVis(); }); }
+    if (route === 'home') { requestAnimationFrame(() => { sizeBelt(); paintAll(); paintVis(); }); }
     observeReveals();
     document.title = route === 'home' ? 'Zepto Lab' : `${labels[route] || projectBySlug(t.slug)?.name || ''} · Zepto Lab`;
   }
@@ -1403,7 +1279,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   /* ================= loop ================= */
   function loop(now) { drawNav(); if (isHome()) { drawIntro(); drawKeywords(); drawCards(); drawCount(); drawBelt(now); } else if (route === 'about') drawGlobe(now); drawFlask(now); requestAnimationFrame(loop); }
   function boot() { initFlask(); show(parse(location.hash)); sizeBelt(); paintAll(); paintVis(); requestAnimationFrame(loop); }
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { RV.built = false; if (isHome()) { sizeBelt(); paintAll(); paintVis(); } else if (route === 'work') renderWork(); else if (route === 'case') renderCase(caseSlugFromHash()); }, 120); });
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (isHome()) { sizeBelt(); paintAll(); paintVis(); } else if (route === 'work') renderWork(); else if (route === 'case') renderCase(caseSlugFromHash()); }, 120); });
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(boot);
 })();
 </script>
