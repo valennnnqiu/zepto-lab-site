@@ -324,9 +324,9 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 
 /* ---------- clients: scroll-counted stat + logo belt ---------- */
 .count { position: relative; height: 520svh; }
-.count .pin { display: grid; place-content: center; justify-items: center; text-align: center; padding: calc(env(safe-area-inset-top, 0px) + 72px) var(--gutter) 24px; gap: clamp(6px, 1.6vh, 16px); }
-.count { --dial: min(82vw, 1080px, 94svh); }
-.dial-wrap { position: relative; width: var(--dial); max-width: 100%; margin-top: clamp(24px, 5vh, 56px); }
+.count .pin { display: grid; place-content: center; justify-items: center; text-align: center; padding: calc(env(safe-area-inset-top, 0px) + 40px) var(--gutter) 24px; gap: clamp(6px, 1.6vh, 16px); }
+.count { --dial: min(82vw, 1200px, calc(185svh - 475px)); }
+.dial-wrap { position: relative; width: var(--dial); max-width: 100%; margin-top: clamp(12px, 2vh, 28px); }
 .dial { width: 100%; height: auto; display: block; overflow: visible; }
 @media (max-width: 760px) { .count { --dial: 68vw; } }
 .dial .tk { stroke: rgba(35,35,35,.16); stroke-width: 2; stroke-linecap: round; transition: stroke .2s; }
@@ -341,13 +341,13 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .dial .ms text { font-family: var(--mono); font-size: 17px; letter-spacing: .1em; fill: var(--ink); text-transform: uppercase; }
 .dial .needle { stroke: var(--accent); stroke-width: 6; stroke-linecap: round; }
 .dial .hub { fill: var(--accent); }
-.count-num { margin-top: calc(var(--dial) * -.27); font-size: clamp(110px, 21vw, 300px); font-weight: 600; letter-spacing: -.07em; line-height: .8; font-variant-numeric: tabular-nums; }
+.count-num { margin-top: calc(var(--dial) * -.27); font-size: calc(var(--dial) * .31); font-weight: 600; letter-spacing: -.07em; line-height: .8; font-variant-numeric: tabular-nums; }
 .count-num.pop { animation: pop .55s cubic-bezier(.2,.8,.2,1); }
 @keyframes pop { from { opacity: 0; filter: blur(12px); transform: translateY(18px); } to { opacity: 1; filter: none; transform: none; } }
 .count-cap { display: grid; gap: 8px; justify-items: center; min-height: 5.2em; }
 .count-cap h2 { margin: 0; font-size: clamp(26px, 3.2vw, 48px); letter-spacing: -.045em; line-height: 1; font-weight: 600; text-wrap: balance; }
 .count-cap p { margin: 0; color: var(--muted); max-width: 46ch; }
-.count-ev { margin: clamp(20px, 4vh, 44px) 0 0; font-size: clamp(24px, 3vw, 46px); font-weight: 600; letter-spacing: -.045em; line-height: 1.05; max-width: 24ch; text-wrap: balance; min-height: 2.1em; }
+.count-ev { margin: clamp(14px, 2.5vh, 32px) 0 0; font-size: clamp(24px, 3vw, 46px); font-weight: 600; letter-spacing: -.045em; line-height: 1.05; max-width: 24ch; text-wrap: balance; min-height: 2.1em; }
 .count-ev.pop { animation: pop .55s cubic-bezier(.2,.8,.2,1); }
 .timeline { display: grid; grid-template-columns: repeat(var(--n, 6), minmax(0, 1fr)); width: min(100%, 1100px); border-top: 1px solid var(--line); margin-top: clamp(24px, 5vh, 56px); list-style: none; padding: 0; }
 .ev { position: relative; padding: 16px 10px 0; display: grid; gap: 6px; justify-items: center; align-content: start; min-width: 0; opacity: .32; transition: opacity .4s; }
