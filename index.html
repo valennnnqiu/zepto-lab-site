@@ -649,9 +649,9 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   /* ================= work: three drifting columns ================= */
   // one project list feeds the home wall, the Work page, and the case-study template
   const PROJECTS = [
-    { slug: 'chantmily', name: 'Chantmily', cat: 'UI/UX', f: ['ui'], kind: 'grid', tint: [214, 186, 170],
+    { slug: 'chantmily', name: 'Chantmily', cat: 'UI/UX', f: ['ui'], kind: 'grid', tint: [214, 186, 170], imgs: ['1.webp', '2.webp'],
       case: { line: 'A Shopify storefront, designed and built end to end.', services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'] } },
-    { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184] },
+    { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184], imgs: ['1.webp'] },
     { slug: 'icicle', name: 'ICICLE', cat: 'UI/UX', f: ['ui'], kind: 'icicle', tint: [196, 206, 222], imgs: ['1.jpg', '2.jpg'],
       case: { line: 'When everything is competing for attention, what should a brand leave out?', story: `Born from a strong offline presence, ICICLE built its identity through physical spaces, materials, and a considered retail experience. But as e-commerce rapidly reshaped how people discover and shop for fashion, its Taobao store became an increasingly important brand touchpoint.
 
@@ -666,11 +666,15 @@ The system was later adopted as a broader e-commerce guideline, balancing brand 
 
 As the way we shop changes,
 the way brands show up must change with it.` } },
-    { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176] },
-    { slug: 'di-speaker', name: 'DI Speaker', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208] },
-    { slug: 't-soup', name: 'T-Soup', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160] },
-    { slug: 'oppo-campus', name: 'OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196] },
-    { slug: 'angel', name: 'Angel', cat: 'Product Design', f: ['product'], kind: 'rings', tint: [176, 196, 226] },
+    { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'] },
+    { slug: 'di-speaker', name: 'DI Speaker', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'] },
+    { slug: 't-soup', name: 'T-Soup', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'] },
+    { slug: 'oppo-campus', name: 'OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg'] },
+    { slug: 'angel', name: 'Angel', cat: 'Product Design', f: ['product'], kind: 'rings', tint: [176, 196, 226], imgs: ['1.jpg', '2.jpg'] },
+    { slug: 'fpx-oppo-campus', name: 'FPX x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'] },
+    { slug: 'chengdu-ifs-oppo-campus', name: 'Chengdu IFS x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'] },
+    { slug: 'giant-network', name: 'Giant Network', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'] },
+    { slug: 'duanshelian', name: '断舍离', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg'] },
   ];
   const projects = PROJECTS;
   // a project's real photos live in assets/projects/<slug>/; without any, a drawn placeholder stands in
