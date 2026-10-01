@@ -117,7 +117,7 @@ a { color: inherit; }
 @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
 
 /* ---------- case study ---------- */
-.case-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; border-block: 1px solid var(--line); padding-block: 22px; }
+.case-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; border-block: 1px solid var(--line); padding-block: 22px; }
 .case-meta div { display: grid; gap: 6px; min-width: 0; }
 .case-meta b { font-weight: 500; }
 .case-img { position: relative; aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; background: var(--ink); margin-block: clamp(32px, 6vh, 64px); max-width: 100%; }
@@ -134,7 +134,7 @@ a { color: inherit; }
 .next { display: grid; justify-items: center; gap: 12px; padding-block: clamp(64px, 14vh, 160px); text-align: center; color: var(--ink); text-decoration: none; }
 .next b { font-size: clamp(56px, 11vw, 180px); letter-spacing: -.07em; line-height: .85; font-weight: 600; transition: color .3s; }
 .next:hover b { color: var(--accent); }
-@media (max-width: 760px) { .case-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } .case-sec { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .case-sec { grid-template-columns: 1fr; } }
 
 /* ---------- services page ---------- */
 .svc-block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px 56px; padding-block: clamp(40px, 7vh, 72px); border-top: 1px solid var(--line); }
@@ -1146,8 +1146,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
         <div class="case-meta reveal">
           <div><span class="mono">Client</span><b>${p.name}</b></div>
           <div><span class="mono">Services</span><b>${c.services || p.cat}</b></div>
-          <div><span class="mono">Scope</span><b>${c.scope || '[Scope]'}</b></div>
-          <div><span class="mono">Year</span><b>${c.year || '[Year]'}</b></div>
         </div>
         <div class="case-img reveal"><canvas></canvas><span class="mono ph">Hero image placeholder</span></div>
         <section class="case-sec reveal"><span class="eyebrow">The brief</span><div><p>${ph(c.brief)}</p></div></section>
