@@ -8,7 +8,8 @@
 <meta property="og:description" content="Zepto Lab is a design studio in Toronto and Shenzhen: branding, UI/UX, product, and toy design that gets built, launched, and sold.">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#ECECEA">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Zepto Lab</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -45,8 +46,7 @@ a { color: inherit; }
 .nav-bar { pointer-events: auto; width: 100%; max-width: 1400px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 8px 8px 8px 16px; border-radius: 999px; border: 1px solid transparent; transition: background .35s, border-color .35s, box-shadow .35s, max-width .55s cubic-bezier(.2,.8,.2,1); }
 .nav.solid .nav-bar { max-width: 780px; background: rgba(246,246,244,.72); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border-color: var(--line); box-shadow: 0 10px 30px rgba(35,35,35,.08); }
 .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 700; font-size: 17px; letter-spacing: -.035em; }
-.brand .mark { width: 30px; height: 29px; }
-.brand .wm span { color: var(--muted); font-weight: 400; }
+.brand .logo-full { height: 30px; width: auto; display: block; }
 .nav-links { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
 .nav-links a { display: block; padding: 9px 15px; border-radius: 999px; color: var(--ink); text-decoration: none; font-size: 14px; font-weight: 500; transition: background .2s; }
 .nav-links a:hover { background: rgba(35,35,35,.06); }
@@ -88,7 +88,7 @@ a { color: inherit; }
 .reveal.seen { opacity: 1; transform: none; }
 .reveal.seen.glow:hover { transform: translateY(-4px); }
 .site-foot { padding: 28px var(--gutter) calc(env(safe-area-inset-bottom, 0px) + 28px); border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px 28px; }
-.site-foot .brand { font-size: 15px; } .site-foot .brand .mark { width: 24px; height: 23px; }
+.site-foot .brand .logo-full { height: 26px; }
 .site-foot nav { display: flex; flex-wrap: wrap; gap: 4px 22px; }
 .site-foot nav a, .site-foot .mono a { color: var(--ink); text-decoration: none; font-size: 14px; }
 .site-foot .mono a:hover { color: var(--accent); }
@@ -418,7 +418,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 
 <nav class="nav" id="nav" aria-label="Primary">
   <div class="nav-bar">
-    <a class="brand" href="#home" aria-label="Zepto Lab home"><svg class="mark" viewBox="0 0 300 290" aria-hidden="true"><path d="M13 273 38 225 60 270 80 10H285" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><rect x="147" y="52" width="82" height="38" rx="7" fill="currentColor"/><path d="M162 90V128L110 238Q103 263 129 263H251Q277 263 270 238L218 128V90" fill="none" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/><path d="M128 196H252L265 238Q268 250 255 250H125Q112 250 115 238Z" fill="currentColor"/><circle cx="196" cy="150" r="10" fill="currentColor"/><circle cx="207" cy="174" r="9" fill="currentColor"/><circle cx="222" cy="214" r="6" fill="var(--bg)"/><circle cx="214" cy="232" r="6" fill="var(--bg)"/></svg><span class="wm">zepto<span>/lab</span></span></a>
+    <a class="brand" href="#home"><img class="logo-full" src="assets/logo.png" alt="Zepto Lab" width="837" height="160"></a>
     <ul class="nav-links">
       <li><a href="#p-work" data-route="work">Work</a></li>
       <li><a href="#p-services" data-route="services">Services</a></li>
@@ -615,7 +615,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 </main>
 
 <footer class="site-foot">
-  <a class="brand" href="#home"><svg class="mark" viewBox="0 0 300 290" aria-hidden="true"><path d="M13 273 38 225 60 270 80 10H285" fill="none" stroke="currentColor" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><rect x="147" y="52" width="82" height="38" rx="7" fill="currentColor"/><path d="M162 90V128L110 238Q103 263 129 263H251Q277 263 270 238L218 128V90" fill="none" stroke="currentColor" stroke-width="16" stroke-linejoin="round"/><path d="M128 196H252L265 238Q268 250 255 250H125Q112 250 115 238Z" fill="currentColor"/><circle cx="196" cy="150" r="10" fill="currentColor"/><circle cx="207" cy="174" r="9" fill="currentColor"/><circle cx="222" cy="214" r="6" fill="var(--bg)"/><circle cx="214" cy="232" r="6" fill="var(--bg)"/></svg><span class="wm">zepto<span>/lab</span></span></a>
+  <a class="brand" href="#home"><img class="logo-full" src="assets/logo.png" alt="Zepto Lab" width="837" height="160"></a>
   <span class="mono">© 2026 Zepto Lab · <a href="https://www.instagram.com/zeptolab_design/" target="_blank" rel="noopener">Instagram ↗</a></span>
 </footer>
 
