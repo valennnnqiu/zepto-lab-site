@@ -123,8 +123,7 @@ a { color: inherit; }
 .case-head .q { color: var(--ink); font-size: clamp(20px, 2vw, 30px); letter-spacing: -.02em; line-height: 1.3; max-width: 34ch; text-wrap: balance; }
 .story-flow { display: grid; gap: clamp(40px, 8vh, 96px); padding-block: clamp(32px, 6vh, 64px) clamp(24px, 6vh, 64px); }
 .s-p { margin: 0 auto; width: min(100%, 820px); font-size: clamp(18px, 1.45vw, 21px); line-height: 1.6; text-align: center; color: #333; text-wrap: balance; }
-.s-big { margin: 0 auto; max-width: 24ch; text-align: center; font-size: clamp(30px, 4.2vw, 64px); line-height: 1; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; }
-.s-end { margin: clamp(24px, 6vh, 64px) auto 0; max-width: 22ch; text-align: center; font-size: clamp(28px, 3.6vw, 54px); line-height: 1.08; letter-spacing: -.045em; font-weight: 600; color: var(--faint); text-wrap: balance; }
+.s-big { margin: 0 auto; max-width: 24ch; text-align: center; font-size: clamp(30px, 4.2vw, 64px); line-height: 1; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; color: var(--accent); }
 .s-p + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 1em); }
 .s-label { display: block; margin: 0 auto; text-align: center; }
 .s-label + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 16px); }
@@ -173,6 +172,8 @@ a { color: inherit; }
 @media (max-width: 860px) { .svc-block { grid-template-columns: 1fr; } .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- about page ---------- */
+.about-photo { margin: 0; aspect-ratio: 3 / 2; border-radius: 28px; overflow: hidden; background: #E2E2DF; }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 70%; display: block; }
 .story { max-width: 760px; margin-inline: auto; }
 .story p { margin: 0 0 18px; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.5; }
 .globe-sec { position: relative; height: 280svh; }
@@ -546,6 +547,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 <!-- ============ ABOUT ============ -->
 <div class="page" data-page="about" hidden>
   <header class="pg-head about-head"><span class="eyebrow">About</span><h1>Clear, usable, market&#8209;ready design.</h1></header>
+  <div class="wrap"><figure class="about-photo reveal"><img src="assets/team/studio.jpg" alt="The Zepto Lab team at the studio, beside the Zepto Lab sign" width="1447" height="1087"></figure></div>
   <section class="sec wrap"><div class="story">
     <div class="chapters">
       <article class="reveal"><span class="mono">01 · Shenzhen, 2021</span><h3>It started in a city that makes things.</h3>
@@ -1301,7 +1303,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
           <div><span class="mono">Services</span><b>${c.services || p.cat}</b></div>
           ${c.scope ? `<div><span class="mono">Scope</span><b>${c.scope}</b></div>` : ''}
         </div>
-        <div class="story-flow">${body}${rest}${last ? `<p class="s-end reveal">${last[1]}</p>` : ''}</div>
+        <div class="story-flow">${body}${rest}${last ? `<span class="s-label eyebrow reveal">Takeaway</span><p class="s-p reveal">${last[1]}</p>` : ''}</div>
       </div>
       <a class="next" href="#p-case-${next.slug}" data-view><span class="eyebrow">Next project</span><b>${next.name}</b></a>`;
     requestAnimationFrame(observeReveals);
