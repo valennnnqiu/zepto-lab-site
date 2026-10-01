@@ -317,8 +317,12 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .tags li { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; color: var(--muted); }
 .card .vis { position: relative; margin: clamp(20px, 2.6vw, 40px) clamp(20px, 2.6vw, 40px) 0 0; border-radius: 22px 22px 0 0; overflow: hidden; background: #E2E2DF; min-width: 0; }
-.card .vis canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.card .vis .ph { position: absolute; left: 14px; bottom: 12px; font-size: 10px; color: rgba(35,35,35,.5); }
+.card .vis-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; display: block; }
+.card .vis-video.center { object-position: 50% 50%; }
+.card a.vis { display: block; color: inherit; text-decoration: none; }
+.card .vis .ph { position: absolute; left: 14px; bottom: 12px; }
+.card .vis .ph.proj { z-index: 1; font-size: 11px; color: var(--ink); background: rgba(246,246,244,.85); padding: 6px 10px; border-radius: 999px; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.card .vis .ph.proj i { font-style: normal; }
 @media (max-width: 760px) {
   .card { grid-template-columns: 1fr; grid-template-rows: auto 1fr; height: 78svh; min-height: 0; top: calc(env(safe-area-inset-top, 0px) + 72px + var(--i) * 16px); border-radius: 22px; }
   .card .vis { margin: 0 16px; order: 2; }
@@ -469,19 +473,19 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     <div class="stack">
       <article class="card" style="--i:0">
         <div class="txt"><span class="num">01</span><div class="bottom"><h3>Branding Strategy</h3><p>Build brands designed for long-term growth, guided by a consulting mindset. From identity systems to campaigns and content, we keep every touchpoint consistent, relevant, and scalable over time.</p><ul class="tags"><li>Identity</li><li>Campaigns</li><li>Content</li></ul></div></div>
-        <div class="vis" data-kind="brand"><canvas></canvas><span class="mono ph">Image placeholder</span></div>
+        <a class="vis" data-kind="brand" href="#p-case-t-soup" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/brand.jpg" src="assets/services/brand.mp4"></video><span class="mono ph proj">T-Soup <i>→</i></span></a>
       </article>
       <article class="card" style="--i:1">
         <div class="txt"><span class="num">02</span><div class="bottom"><h3>Product Design</h3><p>Design products that balance form, use, and feasibility. We stay involved from concept to production to ensure ideas are intentional and buildable.</p><ul class="tags"><li>ID</li><li>CMF</li><li>Prototype</li></ul></div></div>
-        <div class="vis" data-kind="product"><canvas></canvas><span class="mono ph">Image placeholder</span></div>
+        <a class="vis" data-kind="product" href="#p-case-angel" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/product.jpg" src="assets/services/product.mp4"></video><span class="mono ph proj">Angel <i>→</i></span></a>
       </article>
       <article class="card" style="--i:2">
         <div class="txt"><span class="num">03</span><div class="bottom"><h3>UI/UX Design</h3><p>Design digital experiences shaped by real human behavior, from web and app interfaces to Shopify storefronts. We take stores from first wireframe to live launch.</p><ul class="tags"><li>Shopify</li><li>Web</li><li>App</li></ul></div></div>
-        <div class="vis" data-kind="ui"><canvas></canvas><span class="mono ph">Image placeholder</span></div>
+        <a class="vis" data-kind="ui" href="#p-case-chantmily" data-view><video class="vis-video" muted loop playsinline preload="metadata" poster="assets/services/ui.jpg" src="assets/services/ui.mp4"></video><span class="mono ph proj">Chantmily <i>→</i></span></a>
       </article>
       <article class="card" style="--i:3">
         <div class="txt"><span class="num">04</span><div class="bottom"><h3>Toy Design</h3><p>Design toys across categories and production contexts. We work with trusted factories and certifications to turn diverse ideas into compliant products.</p><ul class="tags"><li>Collectibles</li><li>Packaging</li><li>Production</li></ul></div></div>
-        <div class="vis" data-kind="toy"><canvas></canvas><span class="mono ph">Image placeholder</span></div>
+        <a class="vis" data-kind="toy" href="#p-case-3chaos-snk" data-view><video class="vis-video center" muted loop playsinline preload="metadata" poster="assets/services/toy.jpg" src="assets/services/toy.mp4"></video><span class="mono ph proj">3Chaos x SNK <i>→</i></span></a>
       </article>
     </div>
   </section>
@@ -871,56 +875,11 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 
   /* ================= services: stacking cards ================= */
   const cards = [...document.querySelectorAll('.card')];
-  function paintVis() {
-    cards.forEach((card, ci) => {
-      const v = card.querySelector('.vis'), c = v.querySelector('canvas'), x = c.getContext('2d');
-      const w = v.clientWidth, h = v.clientHeight, d = Math.min(devicePixelRatio || 1, 2);
-      c.width = w * d; c.height = h * d; x.setTransform(d, 0, 0, d, 0, 0);
-      const gr = x.createLinearGradient(0, 0, w, h); gr.addColorStop(0, '#E8E8E5'); gr.addColorStop(1, '#D9D9D5');
-      x.fillStyle = gr; x.fillRect(0, 0, w, h);
-      const m = Math.min(w, h), cx = w / 2, cy = h * .55;
-      x.strokeStyle = 'rgba(35,35,35,.55)'; x.fillStyle = 'rgba(35,35,35,.08)'; x.lineWidth = 1;
-      const kind = v.dataset.kind;
-      if (kind === 'brand') {
-        // construction grid + mark
-        x.strokeStyle = 'rgba(35,35,35,.12)';
-        for (let i = 0; i < w; i += 32) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i, h); x.stroke(); }
-        for (let i = 0; i < h; i += 32) { x.beginPath(); x.moveTo(0, i); x.lineTo(w, i); x.stroke(); }
-        x.strokeStyle = 'rgba(35,35,35,.6)';
-        [m * .32, m * .2].forEach(r => { x.beginPath(); x.arc(cx, cy, r, 0, 7); x.stroke(); });
-        x.fillStyle = '#232323'; x.beginPath(); x.arc(cx, cy, m * .06, 0, 7); x.fill();
-        ['#232323', '#7A7A77', '#ECECEA', '#FFFFFF'].forEach((col, i) => { x.fillStyle = col; x.fillRect(24 + i * 34, h - 58, 28, 28); });
-      } else if (kind === 'product') {
-        // speaker orthographic
-        const r = m * .3;
-        x.beginPath(); x.roundRect(cx - r, cy - r * 1.2, r * 2, r * 2.4, r * .4); x.fill(); x.stroke();
-        for (let i = 6; i > 0; i--) { x.beginPath(); x.arc(cx, cy + r * .2, r * .12 * i, 0, 7); x.stroke(); }
-        x.setLineDash([4, 6]); x.beginPath(); x.moveTo(cx - r * 1.5, cy - r * 1.2); x.lineTo(cx + r * 1.5, cy - r * 1.2); x.stroke(); x.setLineDash([]);
-        x.fillStyle = 'rgba(35,35,35,.6)'; x.font = '11px "DM Mono", monospace'; x.fillText('R 12.0', cx + r * 1.05, cy - r * 1.28);
-      } else if (kind === 'ui') {
-        // storefront wireframe
-        const fw = w * .8, fh = h * .9, fx = (w - fw) / 2, fy = h * .12;
-        x.fillStyle = '#F6F6F4'; x.beginPath(); x.roundRect(fx, fy, fw, fh, 14); x.fill();
-        x.fillStyle = 'rgba(35,35,35,.75)'; x.fillRect(fx + 20, fy + 18, 60, 8);
-        x.fillStyle = 'rgba(35,35,35,.12)'; x.beginPath(); x.roundRect(fx + 20, fy + 44, fw - 40, fh * .28, 10); x.fill();
-        const cols = 3, gw = (fw - 40 - 24) / cols;
-        for (let i = 0; i < cols; i++) {
-          const gx = fx + 20 + i * (gw + 12), gy = fy + 56 + fh * .28;
-          x.fillStyle = 'rgba(35,35,35,.08)'; x.beginPath(); x.roundRect(gx, gy, gw, gw * 1.1, 8); x.fill();
-          x.fillStyle = 'rgba(35,35,35,.4)'; x.fillRect(gx, gy + gw * 1.1 + 10, gw * .6, 6);
-        }
-        x.fillStyle = '#232323'; x.beginPath(); x.roundRect(fx + fw - 110, fy + 12, 90, 22, 11); x.fill();
-        x.fillStyle = '#fff'; x.font = '500 11px "DM Sans", sans-serif'; x.fillText('Add to cart', fx + fw - 95, fy + 27);
-      } else {
-        // toy figure silhouette
-        x.fillStyle = 'rgba(35,35,35,.14)';
-        x.beginPath(); x.arc(cx, cy - m * .16, m * .18, 0, 7); x.fill(); x.stroke();
-        x.beginPath(); x.ellipse(cx - m * .1, cy - m * .34, m * .05, m * .09, -.4, 0, 7); x.fill(); x.stroke();
-        x.beginPath(); x.ellipse(cx + m * .1, cy - m * .34, m * .05, m * .09, .4, 0, 7); x.fill(); x.stroke();
-        x.beginPath(); x.roundRect(cx - m * .14, cy + m * .02, m * .28, m * .28, m * .08); x.fill(); x.stroke();
-        x.fillStyle = '#232323'; [-1, 1].forEach(sd => { x.beginPath(); x.arc(cx + sd * m * .06, cy - m * .17, m * .02, 0, 7); x.fill(); });
-      }
-    });
+  // service-card videos play only while on screen
+  const vids = [...document.querySelectorAll('.vis-video')];
+  if (!reduce && 'IntersectionObserver' in window) {
+    const vio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.play().catch(() => {}); else e.target.pause(); }), { threshold: .15 });
+    vids.forEach(v => vio.observe(v));
   }
   function drawCards() {
     cards.forEach((card, i) => {
@@ -1214,7 +1173,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     document.querySelectorAll('[data-route][aria-current]').forEach(a => a.setAttribute('aria-current', 'page'));
     scrollTo({ top: 0, behavior: 'instant' });
     lastScroll = 0; navEl.classList.remove('hide');
-    if (route === 'home') { requestAnimationFrame(() => { sizeBelt(); paintAll(); paintVis(); }); }
+    if (route === 'home') { requestAnimationFrame(() => { sizeBelt(); paintAll(); }); }
     observeReveals();
     document.title = route === 'home' ? 'Zepto Lab' : `${labels[route] || projectBySlug(t.slug)?.name || ''} · Zepto Lab`;
   }
@@ -1435,8 +1394,8 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 
   /* ================= loop ================= */
   function loop(now) { drawNav(); if (isHome()) { drawIntro(); drawKeywords(); drawCards(); drawCount(); drawBelt(now); } else if (route === 'about') drawGlobe(now); drawFlask(now); requestAnimationFrame(loop); }
-  function boot() { initFlask(); show(parse(location.hash)); sizeBelt(); paintAll(); paintVis(); requestAnimationFrame(loop); }
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (isHome()) { sizeBelt(); paintAll(); paintVis(); } else if (route === 'work') renderWork(); else if (route === 'case') renderCase(caseSlugFromHash()); }, 120); });
+  function boot() { initFlask(); show(parse(location.hash)); sizeBelt(); paintAll(); requestAnimationFrame(loop); }
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { if (isHome()) { sizeBelt(); paintAll(); } else if (route === 'work') renderWork(); else if (route === 'case') renderCase(caseSlugFromHash()); }, 120); });
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(boot);
 })();
 </script>
