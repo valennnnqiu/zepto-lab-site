@@ -1139,7 +1139,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     buildLiquid(-1);
   }
   // a click pours some in: the level rises a step per click, holds for a moment, then drains back to where the scroll left it
-  const pour = () => { if (!F) return; F.burst = 1; F.boostT = Math.min(1.54, F.boostT + .42); F.hold = performance.now() + 2600; };
+  const pour = () => { if (!F) return; F.burst = 1; F.boostT = Math.min(1.54, F.boostT + .2); F.hold = performance.now() + 500; };
   fhit.addEventListener('click', pour);
   heroSlot.addEventListener('click', pour);
   let pointerX = 0, pointerY = 0, pX = 0, pY = 0;
