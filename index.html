@@ -126,6 +126,7 @@ a { color: inherit; }
 .s-p { margin: 0 auto; width: min(100%, 820px); font-size: clamp(18px, 1.45vw, 21px); line-height: 1.6; text-align: center; color: #333; text-wrap: balance; }
 .s-big { margin: 0 auto; max-width: 24ch; text-align: center; font-size: clamp(30px, 4.2vw, 64px); line-height: 1; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; color: var(--accent); }
 .s-p + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 1em); }
+.s-p + .s-p.s-last { margin-top: 0; }   /* the closing line keeps its own space */
 .s-label { display: block; margin: 0 auto; text-align: center; }
 .s-label + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 16px); }
 .s-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: min(100%, 860px); margin-inline: auto; }
@@ -1308,7 +1309,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
           <div><span class="mono">Services</span><b>${c.services || p.cat}</b></div>
           ${c.scope ? `<div><span class="mono">Scope</span><b>${c.scope}</b></div>` : ''}
         </div>
-        <div class="story-flow">${body}${rest}${last ? `<span class="s-label eyebrow reveal">Takeaway</span><p class="s-p reveal">${last[1]}</p>` : ''}</div>
+        <div class="story-flow">${body}${rest}${last ? `<p class="s-p s-last reveal">${last[1]}</p>` : ''}</div>
       </div>
       <a class="next" href="#p-case-${next.slug}" data-view><span class="eyebrow">Next project</span><b>${next.name}</b></a>`;
     requestAnimationFrame(observeReveals);
