@@ -126,6 +126,8 @@ a { color: inherit; }
 .s-big { margin: 0 auto; max-width: 24ch; text-align: center; font-size: clamp(30px, 4.2vw, 64px); line-height: 1; letter-spacing: -.055em; font-weight: 600; text-wrap: balance; }
 .s-end { margin: clamp(24px, 6vh, 64px) auto 0; max-width: 22ch; text-align: center; font-size: clamp(28px, 3.6vw, 54px); line-height: 1.08; letter-spacing: -.045em; font-weight: 600; color: var(--faint); text-wrap: balance; }
 .s-p + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 1em); }
+.s-label { display: block; margin: 0 auto; width: min(100%, 680px); }
+.s-label + .s-p { margin-top: calc(-1 * clamp(40px, 8vh, 96px) + 16px); }
 .s-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .s-pair.solo { grid-template-columns: minmax(0, calc(50% - 8px)); justify-content: center; }
 .s-img { margin: 0; aspect-ratio: 3 / 4; border-radius: 28px; overflow: hidden; background: #E2E2DF; }
@@ -1280,9 +1282,13 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const shot = n => { const k = Math.min(n, total - used); if (k <= 0) return ''; const h = Array.from({ length: k }, () => fig(used++)).join(''); return `<div class="s-pair reveal${k === 1 ? ' solo' : ''}">${h}</div>`; };
     const story = c.story || [];
     const last = story.length && story[story.length - 1][0] === 'end' ? story[story.length - 1] : null;
+    // small labels: "Background" over the opening paragraph, "What we did" over the first paragraph after the big statement
+    let seenBig = false, labelled = 0;
+    const label = () => { const l = labelled === 0 ? 'Background' : labelled === 1 && seenBig ? 'What we did' : ''; if (l) labelled++; return l ? `<span class="s-label eyebrow reveal">${l}</span>` : ''; };
     const body = (last ? story.slice(0, -1) : story).map(([t, a]) =>
-      t === 'p' ? `<p class="s-p reveal">${a}</p>` :
-      t === 'big' ? `<p class="s-big reveal">${a}</p>` : shot(2)).join('');
+      t === 'p' ? `${label()}<p class="s-p reveal">${a}</p>` :
+      t === 'big' ? (seenBig = true, `<p class="s-big reveal">${a}</p>`) :
+      shot(2)).join('');
     let rest = ''; while (used < total) rest += shot(2);   // photos beyond the story's breaks
     document.getElementById('case-root').innerHTML = `
       <header class="pg-head case-head"><span class="eyebrow">Case study · ${p.cat}</span><h1>${p.name}</h1>${c.line ? `<p class="q">${c.line}</p>` : ''}</header>
