@@ -326,9 +326,10 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 /* ---------- clients: scroll-counted stat + logo belt ---------- */
 .count { position: relative; height: 520svh; }
 .count .pin { display: grid; place-content: center; justify-items: center; text-align: center; padding: calc(env(safe-area-inset-top, 0px) + 72px) var(--gutter) 24px; gap: clamp(6px, 1.6vh, 16px); }
-.dial-wrap { position: relative; width: min(70vw, 760px); max-width: 100%; margin-top: clamp(24px, 5vh, 56px); }
+.count { --dial: min(82vw, 1080px, 94svh); }
+.dial-wrap { position: relative; width: var(--dial); max-width: 100%; margin-top: clamp(24px, 5vh, 56px); }
 .dial { width: 100%; height: auto; display: block; overflow: visible; }
-@media (max-width: 760px) { .dial-wrap { width: 68vw; } }
+@media (max-width: 760px) { .count { --dial: 68vw; } }
 .dial .tk { stroke: rgba(35,35,35,.16); stroke-width: 2; stroke-linecap: round; transition: stroke .2s; }
 .dial .tk.on { stroke: var(--ink); }
 .dial .tk.major { stroke-width: 3.5; }
@@ -341,7 +342,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .dial .ms text { font-family: var(--mono); font-size: 17px; letter-spacing: .1em; fill: var(--ink); text-transform: uppercase; }
 .dial .needle { stroke: var(--accent); stroke-width: 6; stroke-linecap: round; }
 .dial .hub { fill: var(--accent); }
-.count-num { margin-top: calc(min(70vw, 760px) * -.27); font-size: clamp(110px, 21vw, 300px); font-weight: 600; letter-spacing: -.07em; line-height: .8; font-variant-numeric: tabular-nums; }
+.count-num { margin-top: calc(var(--dial) * -.27); font-size: clamp(110px, 21vw, 300px); font-weight: 600; letter-spacing: -.07em; line-height: .8; font-variant-numeric: tabular-nums; }
 .count-num.pop { animation: pop .55s cubic-bezier(.2,.8,.2,1); }
 @keyframes pop { from { opacity: 0; filter: blur(12px); transform: translateY(18px); } to { opacity: 1; filter: none; transform: none; } }
 .count-cap { display: grid; gap: 8px; justify-items: center; min-height: 5.2em; }
