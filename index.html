@@ -1134,19 +1134,23 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     sg.fillStyle = rg; sg.fillRect(0, 0, 256, 256);
     const shadow = new T.Mesh(new T.PlaneGeometry(3.6, 2.2), new T.MeshBasicMaterial({ map: new T.CanvasTexture(sc), transparent: true, depthWrite: false }));
     shadow.rotation.x = -Math.PI / 2; shadow.position.set(.1, -1.42, 0); scene.add(shadow);
-    F = { renderer, scene, cam, root, art, buildLiquid, bubbles, rAt, shadow, burst: 0, tilt: 0, rect: { x: 0, y: 0, s: 1 } };
+    F = { renderer, scene, cam, root, art, buildLiquid, bubbles, rAt, shadow, burst: 0, boost: 0, boostT: 0, hold: 0, tilt: 0, rect: { x: 0, y: 0, s: 1 } };
     buildLiquid(-1);
   }
-  fhit.addEventListener('click', () => { if (F) F.burst = 1; });
-  heroSlot.addEventListener('click', () => { if (F) F.burst = 1; });
+  // a click pours some in: the level rises a step per click, holds for a moment, then drains back to where the scroll left it
+  const pour = () => { if (!F) return; F.burst = 1; F.boostT = Math.min(1.54, F.boostT + .42); F.hold = performance.now() + 2600; };
+  fhit.addEventListener('click', pour);
+  heroSlot.addEventListener('click', pour);
   let pointerX = 0, pointerY = 0, pX = 0, pY = 0;
   addEventListener('pointermove', e => { pointerX = e.clientX / innerWidth * 2 - 1; pointerY = e.clientY / innerHeight * 2 - 1; });
   function drawFlask(now) {
     if (!F) return;
     const t = now / 1000;
     const docP = clamp(scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight));
-    F.buildLiquid(-1.12 + docP * 1.3);
-    const level = -1.12 + docP * 1.3;
+    if (now > F.hold) F.boostT *= .992;
+    F.boost += (F.boostT - F.boost) * (reduce ? 1 : .07);
+    const level = Math.min(.42, -1.12 + docP * 1.3 + F.boost);
+    F.buildLiquid(level);
     F.bubbles.forEach(b => {
       const u = b.userData;
       if (!reduce) u.t += (u.v * (1 + F.burst * 4) + Math.abs(scrollVel) * .01) * .016;
