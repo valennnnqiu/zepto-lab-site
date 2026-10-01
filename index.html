@@ -206,7 +206,8 @@ a { color: inherit; }
 @media (max-width: 600px) { .points > div { grid-template-columns: 1fr; } }
 .team { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .member { display: grid; gap: 12px; }
-.member .ph-img { aspect-ratio: 4 / 5; border-radius: 22px; background: linear-gradient(160deg, #E2E2DF, #D2D2CE); display: grid; place-items: center; color: var(--muted); }
+.member .ph-img { aspect-ratio: 4 / 5; border-radius: 22px; background: linear-gradient(160deg, #E2E2DF, #D2D2CE); overflow: hidden; }
+.member .ph-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .member b { font-size: 20px; letter-spacing: -.03em; }
 .places { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .place { border-radius: 28px; background: var(--surface); border: 1px solid var(--line); padding: clamp(24px, 3vw, 40px); display: grid; gap: 10px; min-height: 260px; align-content: space-between; }
@@ -558,9 +559,9 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   </div></section>
   <section class="sec wrap"><span class="eyebrow sec-label">Team</span><h2 class="reveal">The people you'll work with.</h2>
     <div class="team">
-      <div class="member reveal"><div class="ph-img mono">Photo</div><b>Valen Qiu</b><span class="mono">Co-founder</span></div>
-      <div class="member reveal"><div class="ph-img mono">Photo</div><b>[Name]</b><span class="mono">Co-founder</span></div>
-      <div class="member reveal"><div class="ph-img mono">Photo</div><b>[Name]</b><span class="mono">[Role]</span></div>
+      <div class="member reveal"><div class="ph-img"><img src="assets/team/zen.jpg" alt="Zen" loading="lazy"></div><b>Zen</b><span class="mono">Co-founder</span></div>
+      <div class="member reveal"><div class="ph-img"><img src="assets/team/eric.jpg" alt="Eric" loading="lazy"></div><b>Eric</b><span class="mono">Business developer</span></div>
+      <div class="member reveal"><div class="ph-img"><img src="assets/team/valen.jpg" alt="Valen Qiu" loading="lazy"></div><b>Valen Qiu</b><span class="mono">Co-founder</span></div>
     </div>
   </section>
   <section class="globe-sec" id="globe-sec" aria-label="Where we are: Shenzhen and Toronto">
