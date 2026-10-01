@@ -109,8 +109,8 @@ a { color: inherit; }
 .pcard .row { transition-delay: .08s; }
 .pcard.in .img, .pcard.in .row { opacity: 1; transform: none; }
 .pcard .img { position: relative; aspect-ratio: 4 / 3; border-radius: 22px; overflow: hidden; background: var(--ink); max-width: 100%; }
-.pcard .img canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
-.pcard:hover .img canvas { transform: scale(1.04); }
+.pcard .img canvas, .pcard .img img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.pcard:hover .img canvas, .pcard:hover .img img { transform: scale(1.04); }
 .pcard .img .ph { position: absolute; top: 14px; right: 16px; font-size: 10px; color: rgba(255,255,255,.45); }
 .pcard .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .pcard b { font-size: clamp(22px, 2.2vw, 32px); font-weight: 600; letter-spacing: -.04em; }
@@ -122,15 +122,17 @@ a { color: inherit; }
 .case-meta b { font-weight: 500; }
 .case-img { position: relative; aspect-ratio: 16 / 9; border-radius: 28px; overflow: hidden; background: var(--ink); margin-block: clamp(32px, 6vh, 64px); max-width: 100%; }
 .case-img canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-.case-img .ph, .gallery .ph { position: absolute; left: 16px; bottom: 14px; font-size: 10px; color: rgba(255,255,255,.5); }
+.case-img .ph { position: absolute; left: 16px; bottom: 14px; font-size: 10px; color: rgba(255,255,255,.5); }
 .case-sec { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 24px 48px; padding-block: clamp(32px, 6vh, 64px); border-top: 1px solid var(--line); }
 .case-sec h3 { margin: 0; font-size: clamp(24px, 2.4vw, 34px); letter-spacing: -.04em; font-weight: 600; }
 .case-sec p { margin: 0 0 14px; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; max-width: 60ch; }
 .case-sec ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.gallery div { position: relative; aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--ink); }
-.gallery div:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 8; }
-.gallery canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* project photos are 3:4 portraits: shown in pairs, a lone one is centred */
+.shots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-block: clamp(32px, 6vh, 64px); }
+.shots figure { margin: 0; aspect-ratio: 3 / 4; border-radius: 22px; overflow: hidden; background: #E2E2DF; }
+.shots figure:last-child:nth-child(odd) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); }
+.shots img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (max-width: 600px) { .shots { grid-template-columns: 1fr; } .shots figure:last-child:nth-child(odd) { width: 100%; } }
 .next { display: grid; justify-items: center; gap: 12px; padding-block: clamp(64px, 14vh, 160px); text-align: center; color: var(--ink); text-decoration: none; }
 .next b { font-size: clamp(56px, 11vw, 180px); letter-spacing: -.07em; line-height: .85; font-weight: 600; transition: color .3s; }
 .next:hover b { color: var(--accent); }
@@ -274,7 +276,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .work-col.down .work-track { animation-direction: reverse; }
 .work-col:hover .work-track { animation-play-state: paused; }
 .tile { position: relative; display: block; aspect-ratio: var(--ar, 4 / 5); margin-bottom: clamp(12px, 1.4vw, 20px); border-radius: 22px; overflow: hidden; background: var(--ink); border: 0; transition: transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s; text-decoration: none; color: #fff; max-width: 100%; position: relative; z-index: 0; }
-.tile canvas { position: absolute; inset: -6%; width: 112%; height: 112%; display: block; animation: drift var(--dur, 14s) ease-in-out infinite alternate; }
+.tile canvas, .tile img { position: absolute; inset: -6%; width: 112%; height: 112%; display: block; object-fit: cover; animation: drift var(--dur, 14s) ease-in-out infinite alternate; }
 @keyframes drift { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.08) translate(var(--dx, -2%), var(--dy, 2%)); } }
 .tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,.7)); opacity: .6; transition: opacity .35s; }
 .tile .ph { position: absolute; top: 14px; right: 16px; font-size: 10px; color: rgba(255,255,255,.45); z-index: 1; }
@@ -401,7 +403,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .work-track, .hint i, .tile canvas { animation: none; }
+  .work-track, .hint i, .tile canvas, .tile img { animation: none; }
 }
 </style>
 </head>
@@ -650,7 +652,20 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     { slug: 'chantmily', name: 'Chantmily', cat: 'UI/UX', f: ['ui'], kind: 'grid', tint: [214, 186, 170],
       case: { line: 'A Shopify storefront, designed and built end to end.', services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'] } },
     { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184] },
-    { slug: 'icicle', name: 'ICICLE', cat: 'UI/UX', f: ['ui'], kind: 'icicle', tint: [196, 206, 222] },
+    { slug: 'icicle', name: 'ICICLE', cat: 'UI/UX', f: ['ui'], kind: 'icicle', tint: [196, 206, 222], imgs: ['1.jpg', '2.jpg'],
+      case: { line: 'When everything is competing for attention, what should a brand leave out?', story: `Born from a strong offline presence, ICICLE built its identity through physical spaces, materials, and a considered retail experience. But as e-commerce rapidly reshaped how people discover and shop for fashion, its Taobao store became an increasingly important brand touchpoint.
+
+The question was no longer whether to change, but how.
+
+We rethought the store experience — refining imagery, information hierarchy, and visual details while building a more consistent digital system.
+
+Less visual noise.
+More room for the product.
+
+The system was later adopted as a broader e-commerce guideline, balancing brand consistency with everyday shopping behavior.
+
+As the way we shop changes,
+the way brands show up must change with it.` } },
     { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176] },
     { slug: 'di-speaker', name: 'DI Speaker', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208] },
     { slug: 't-soup', name: 'T-Soup', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160] },
@@ -658,9 +673,12 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     { slug: 'angel', name: 'Angel', cat: 'Product Design', f: ['product'], kind: 'rings', tint: [176, 196, 226] },
   ];
   const projects = PROJECTS;
+  // a project's real photos live in assets/projects/<slug>/; without any, a drawn placeholder stands in
+  const imgSrc = (pr, i) => `assets/projects/${pr.slug}/${pr.imgs[i]}`;
+  const media = pr => pr.imgs ? `<img src="${imgSrc(pr, 0)}" alt="" loading="lazy">` : '<canvas></canvas><span class="mono ph">Placeholder</span>';
   const ratios = ['4 / 5', '1 / 1', '3 / 4', '4 / 3', '4 / 5', '3 / 4'];
   const tileHTML = (pr, i, clone) => `<a class="tile" href="#p-case-${pr.slug}" data-view ${clone ? 'aria-hidden="true" tabindex="-1"' : ''} style="--ar:${ratios[i % ratios.length]};--dur:${12 + (i % 4) * 3}s;--dx:${i % 2 ? 2 : -2}%;--dy:${i % 3 ? -2 : 2}%">
-      <canvas></canvas><span class="mono ph">Placeholder</span>
+      ${media(pr)}
       <span class="label"><b>${pr.name}</b><span class="mono">${pr.cat}</span></span></a>`;
   const workWall = document.getElementById('work-wall');
   workWall.innerHTML = [0, 1, 2].map(col => {
@@ -673,7 +691,8 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   const tileProj = [0, 1, 2].flatMap(col => { const set = Array.from({ length: 5 }, (_, k) => (col * 3 + k) % projects.length); return [...set, ...set]; });
 
   function paintPlate(el, pr, seed) {
-    const c = el.querySelector('canvas'), x = c.getContext('2d');
+    const c = el.querySelector('canvas'); if (!c) return;
+    const x = c.getContext('2d');
     const w = c.clientWidth, h = c.clientHeight, d = Math.min(devicePixelRatio || 1, 2);
     c.width = w * d; c.height = h * d; x.setTransform(d, 0, 0, d, 0, 0);
     const [r, gg, b] = pr.tint, col = a => `rgba(${r},${gg},${b},${a})`;
@@ -1118,7 +1137,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const f = document.getElementById('filters'), g = document.getElementById('pgrid');
     f.innerHTML = CATS.map(([k, l]) => `<button class="chip" type="button" data-f="${k}" aria-pressed="${k === workFilter}">${l}</button>`).join('');
     const list = PROJECTS.filter(p => workFilter === 'all' || p.f.includes(workFilter));
-    g.innerHTML = list.map((p, i) => `<a class="pcard" href="#p-case-${p.slug}" data-view><div class="img"><canvas></canvas><span class="mono ph">Placeholder</span></div><div class="row"><b>${p.name}</b><span class="mono">${p.cat}</span></div></a>`).join('');
+    g.innerHTML = list.map((p, i) => `<a class="pcard" href="#p-case-${p.slug}" data-view><div class="img">${media(p)}</div><div class="row"><b>${p.name}</b><span class="mono">${p.cat}</span></div></a>`).join('');
     requestAnimationFrame(() => g.querySelectorAll('.pcard').forEach((el, i) => { const p = list[i]; paintPlate(el.querySelector('.img'), p, 11 + PROJECTS.indexOf(p) * 97); }));
     revealCards(g);
   }
@@ -1139,6 +1158,9 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const p = projectBySlug(slug) || PROJECTS[0];
     const idx = PROJECTS.indexOf(p), next = PROJECTS[(idx + 1) % PROJECTS.length];
     const c = p.case || {};
+    const paras = t => t.trim().split(/\n\s*\n/).map(x => `<p>${x.trim().replace(/\n/g, '<br>')}</p>`).join('');
+    const shots = list => list.length ? `<div class="shots reveal">${list.map(i => `<figure><img src="${imgSrc(p, i)}" alt="${p.name}, image ${i + 1}" loading="lazy"></figure>`).join('')}</div>` : '';
+    const all = (p.imgs || []).map((_, i) => i);
     document.getElementById('case-root').innerHTML = `
       <header class="pg-head"><span class="eyebrow">Case study · ${p.cat}</span><h1>${p.name}</h1>${c.line ? `<p>${c.line}</p>` : ''}</header>
       <div class="wrap">
@@ -1146,15 +1168,14 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
           <div><span class="mono">Client</span><b>${p.name}</b></div>
           <div><span class="mono">Services</span><b>${c.services || p.cat}</b></div>
         </div>
-        <div class="case-img reveal"><canvas></canvas><span class="mono ph">Hero image placeholder</span></div>
-        ${c.brief ? `<section class="case-sec reveal"><span class="eyebrow">The brief</span><div><p>${c.brief}</p></div></section>` : ''}
-        ${c.did || c.tags ? `<section class="case-sec reveal"><span class="eyebrow">What we did</span><div>${c.did ? `<p>${c.did}</p>` : ''}${c.tags ? `<ul class="tags">${c.tags.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}</div></section>` : ''}
-        <div class="gallery reveal"><div><canvas></canvas><span class="mono ph">Process image</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div></div>
+        ${p.imgs ? shots(all.slice(0, 2)) : '<div class="case-img reveal"><canvas></canvas><span class="mono ph">Image placeholder</span></div>'}
+        ${c.story ? `<section class="case-sec reveal"><span class="eyebrow">The story</span><div>${paras(c.story)}</div></section>` : ''}
+        ${c.tags ? `<section class="case-sec reveal"><span class="eyebrow">What we did</span><div><ul class="tags">${c.tags.map(t => `<li>${t}</li>`).join('')}</ul></div></section>` : ''}
+        ${shots(all.slice(2))}
       </div>
       <a class="next" href="#p-case-${next.slug}" data-view><span class="eyebrow">Next project</span><b>${next.name}</b></a>`;
     requestAnimationFrame(() => {
-      const root = document.getElementById('case-root');
-      root.querySelectorAll('.case-img, .gallery > div').forEach((el, i) => paintPlate(el, p, 11 + idx * 97 + i * 13));
+      const ci = document.querySelector('#case-root .case-img'); if (ci) paintPlate(ci, p, 11 + idx * 97);
       observeReveals();
     });
   }
