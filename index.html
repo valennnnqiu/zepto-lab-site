@@ -127,9 +127,6 @@ a { color: inherit; }
 .case-sec h3 { margin: 0; font-size: clamp(24px, 2.4vw, 34px); letter-spacing: -.04em; font-weight: 600; }
 .case-sec p { margin: 0 0 14px; font-size: clamp(17px, 1.4vw, 21px); line-height: 1.5; max-width: 60ch; }
 .case-sec ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.stat-c { border-radius: 22px; background: var(--surface); border: 1px solid var(--line); padding: 24px; display: grid; gap: 8px; }
-.stat-c b { font-size: clamp(40px, 5vw, 72px); letter-spacing: -.06em; font-weight: 600; line-height: .9; color: var(--accent); font-variant-numeric: tabular-nums; }
 .gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .gallery div { position: relative; aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--ink); }
 .gallery div:first-child { grid-column: 1 / -1; aspect-ratio: 16 / 8; }
@@ -137,7 +134,7 @@ a { color: inherit; }
 .next { display: grid; justify-items: center; gap: 12px; padding-block: clamp(64px, 14vh, 160px); text-align: center; color: var(--ink); text-decoration: none; }
 .next b { font-size: clamp(56px, 11vw, 180px); letter-spacing: -.07em; line-height: .85; font-weight: 600; transition: color .3s; }
 .next:hover b { color: var(--accent); }
-@media (max-width: 760px) { .case-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } .case-sec { grid-template-columns: 1fr; } .stats { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .case-meta { grid-template-columns: repeat(2, minmax(0, 1fr)); } .case-sec { grid-template-columns: 1fr; } }
 
 /* ---------- services page ---------- */
 .svc-block { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 24px 56px; padding-block: clamp(40px, 7vh, 72px); border-top: 1px solid var(--line); }
@@ -1156,7 +1153,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
         <section class="case-sec reveal"><span class="eyebrow">The brief</span><div><p>${ph(c.brief)}</p></div></section>
         <section class="case-sec reveal"><span class="eyebrow">What we did</span><div><p>${ph(c.did)}</p><ul class="tags">${(c.tags || ['[Deliverable]', '[Deliverable]', '[Deliverable]']).map(t => `<li>${t}</li>`).join('')}</ul></div></section>
         <div class="gallery reveal"><div><canvas></canvas><span class="mono ph">Process image</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div><div><canvas></canvas><span class="mono ph">Detail</span></div></div>
-        <section class="case-sec reveal"><span class="eyebrow">Results</span><div class="stats">${(c.stats || [['[+00%]', 'Conversion'], ['[00]', 'Weeks to launch'], ['[00k]', 'First-month sales']]).map(([n, l]) => `<div class="stat-c glow"><b>${n}</b><span class="mono">${l}</span></div>`).join('')}</div></section>
       </div>
       <a class="next" href="#p-case-${next.slug}" data-view><span class="eyebrow">Next project</span><b>${next.name}</b></a>`;
     requestAnimationFrame(() => {
