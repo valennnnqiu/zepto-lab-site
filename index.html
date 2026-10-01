@@ -174,9 +174,8 @@ a { color: inherit; }
 @media (max-width: 860px) { .svc-block { grid-template-columns: 1fr; } .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- about page ---------- */
-.story { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px 64px; align-items: start; }
+.story { max-width: 760px; margin-inline: auto; }
 .story p { margin: 0 0 18px; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.5; }
-.story .big { font-size: clamp(28px, 3vw, 44px); letter-spacing: -.045em; line-height: 1.05; font-weight: 600; margin: 0; }
 .globe-sec { position: relative; height: 280svh; }
 .globe-sec .pin { display: grid; place-content: center; justify-items: center; text-align: center; gap: 14px; padding: calc(env(safe-area-inset-top, 0px) + 80px) var(--gutter) 24px; }
 .globe-sec h2 { margin: 0 0 clamp(8px, 3vh, 32px); font-size: clamp(34px, 5vw, 76px); letter-spacing: -.05em; line-height: 1; font-weight: 600; }
@@ -206,7 +205,6 @@ a { color: inherit; }
 .points dt { padding-top: 6px; color: var(--accent); }
 .points dd { margin: 0; font-size: clamp(17px, 1.4vw, 20px); line-height: 1.5; }
 @media (max-width: 600px) { .points > div { grid-template-columns: 1fr; } }
-@media (min-width: 861px) { .story .big { position: sticky; top: 120px; } }   /* only pin it when it has its own column */
 .team { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .member { display: grid; gap: 12px; }
 .member .ph-img { aspect-ratio: 4 / 5; border-radius: 22px; background: linear-gradient(160deg, #E2E2DF, #D2D2CE); display: grid; place-items: center; color: var(--muted); }
@@ -216,7 +214,7 @@ a { color: inherit; }
 .place b { font-size: clamp(36px, 4.4vw, 66px); letter-spacing: -.06em; line-height: .9; font-weight: 600; }
 .place time { font-family: var(--mono); font-size: clamp(28px, 3vw, 44px); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
 .place .row { display: flex; justify-content: space-between; align-items: end; gap: 12px; flex-wrap: wrap; }
-@media (max-width: 860px) { .story, .places { grid-template-columns: 1fr; } .team { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 860px) { .places { grid-template-columns: 1fr; } .team { grid-template-columns: 1fr 1fr; } }
 
 /* ---------- contact page ---------- */
 .contact-pg { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px 72px; align-items: start; }
@@ -548,7 +546,6 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
 <div class="page" data-page="about" hidden>
   <header class="pg-head about-head"><span class="eyebrow">About</span><h1>Clear, usable, market&#8209;ready design.</h1></header>
   <section class="sec wrap"><div class="story">
-    <p class="big reveal">Born in Shenzhen in 2021. Based in Toronto since 2024.</p>
     <div class="chapters">
       <article class="reveal"><span class="mono">01 · Shenzhen, 2021</span><h3>It started in a city that makes things.</h3>
         <p>Zepto Lab began as two designers in Shenzhen, where so much of the world's products are made. There, a sketch only matters if it can be built. We learned to design with production in mind: materials, costs, timelines, and the person who will one day hold the thing.</p></article>
