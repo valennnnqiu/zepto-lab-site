@@ -808,14 +808,16 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
       ${media(pr)}
       <span class="label"><b>${pr.name}</b><span class="mono">${pr.cat}</span></span></a>`;
   const workWall = document.getElementById('work-wall');
+  // deal the projects out across the three columns so none appears in two columns at once
+  const colSet = col => projects.map((_, i) => i).filter(i => i % 3 === col);
   workWall.innerHTML = [0, 1, 2].map(col => {
-    const set = Array.from({ length: 5 }, (_, k) => (col * 3 + k) % projects.length);
+    const set = colSet(col);
     const html = set.map((pi, k) => tileHTML(projects[pi], col * 5 + k, false)).join('');
     const clone = set.map((pi, k) => tileHTML(projects[pi], col * 5 + k, true)).join('');
     return `<div class="work-col${col === 1 ? ' down' : ''}"><div class="work-track" style="--dur:${[70, 58, 80][col]}s">${html}${clone}</div></div>`;
   }).join('');
   const tiles = [...workWall.querySelectorAll('.tile')];
-  const tileProj = [0, 1, 2].flatMap(col => { const set = Array.from({ length: 5 }, (_, k) => (col * 3 + k) % projects.length); return [...set, ...set]; });
+  const tileProj = [0, 1, 2].flatMap(col => { const set = colSet(col); return [...set, ...set]; });
 
   function paintPlate(el, pr, seed) {
     const c = el.querySelector('canvas'); if (!c) return;
