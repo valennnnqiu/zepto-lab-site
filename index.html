@@ -978,7 +978,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const dt = Math.min(64, now - lastT) / 1000; lastT = now;
     const sv = scrollY - lastScroll; lastScroll = scrollY;
     scrollVel += (sv - scrollVel) * .2;
-    const target = reduce ? 0 : (hovering ? 0 : 42 + Math.min(900, Math.abs(sv) * 22));
+    const target = reduce ? 0 : (hovering ? 0 : 84 + Math.min(900, Math.abs(sv) * 22));
     speed += (target - speed) * Math.min(1, dt * (hovering ? 6 : 3));
     beltX -= speed * dt;
     if (setW && beltX <= -setW) beltX += setW;
