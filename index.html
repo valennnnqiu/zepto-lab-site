@@ -650,8 +650,30 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   // one project list feeds the home wall, the Work page, and the case-study template
   const PROJECTS = [
     { slug: 'chantmily', name: 'Chantmily', cat: 'UI/UX', f: ['ui'], kind: 'grid', tint: [214, 186, 170], imgs: ['1.webp', '2.webp'],
-      case: { line: 'A Shopify storefront, designed and built end to end.', services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'] } },
-    { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184], imgs: ['1.webp'] },
+      case: { line: `How do you rebuild a digital experience for a brand that's ready to grow?`, services: 'UI/UX', tags: ['Shopify design', 'Shopify development', 'Launch'], story: `For Chantmily, the challenge went far beyond redesigning a Shopify store.
+
+As the brand expanded its product range and evolved its positioning, the website needed to do more — present the brand more clearly, support new categories, and make everyday operations easier for the team behind it.
+
+We rebuilt the Shopify experience from the ground up, connecting brand strategy, UX, visual direction, product presentation, and content into one scalable system.
+
+But the work didn't stop at the storefront.
+We also established image guidelines, content structures, and backend workflows designed for ongoing updates and future growth.
+
+A website shouldn't just reflect where a brand is today.
+It should be built for where the business is going next.` } },
+    { slug: 'tsingtao', name: 'Tsingtao Beer', cat: 'Branding', f: ['brand'], kind: 'rings', tint: [190, 206, 184], imgs: ['1.webp'],
+      case: { line: `Tsingtao has been part of Canada for over 50 years, rooted in Chinese restaurants and the communities around them.`, story: `But culture moves, audiences change, and brands need to move with them.
+
+The opportunity isn't to reinvent Tsingtao, but to expand where it belongs.
+
+We're building a market strategy that connects brand positioning, business development, partnerships, events, and cultural activation.
+
+From Chinese restaurants to Asian fusion, bars and nightclubs, to emerging scenes like rave and youth culture, we're finding new contexts for Tsingtao to show up in, and new reasons for people to discover it.
+
+Rather than treating each activation as a standalone campaign, we're building a connected ecosystem of people, places, partnerships, and experiences.
+
+Keep the heritage. Expand the culture.
+Build the next generation of Tsingtao in Canada.` } },
     { slug: 'icicle', name: 'ICICLE', cat: 'UI/UX', f: ['ui'], kind: 'icicle', tint: [196, 206, 222], imgs: ['1.jpg', '2.jpg'],
       case: { line: 'When everything is competing for attention, what should a brand leave out?', story: `Born from a strong offline presence, ICICLE built its identity through physical spaces, materials, and a considered retail experience. But as e-commerce rapidly reshaped how people discover and shop for fashion, its Taobao store became an increasingly important brand touchpoint.
 
@@ -666,15 +688,89 @@ The system was later adopted as a broader e-commerce guideline, balancing brand 
 
 As the way we shop changes,
 the way brands show up must change with it.` } },
-    { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'] },
-    { slug: 'di-speaker', name: 'DI Speaker', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'] },
-    { slug: 't-soup', name: 'T-Soup', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'] },
-    { slug: 'oppo-campus', name: 'OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg'] },
-    { slug: 'angel', name: 'Angel', cat: 'Product Design', f: ['product'], kind: 'rings', tint: [176, 196, 226], imgs: ['1.jpg', '2.jpg'] },
-    { slug: 'fpx-oppo-campus', name: 'FPX x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'] },
-    { slug: 'chengdu-ifs-oppo-campus', name: 'Chengdu IFS x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'] },
-    { slug: 'giant-network', name: 'Giant Network', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'] },
-    { slug: 'duanshelian', name: '断舍离', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg'] },
+    { slug: '3chaos-snk', name: '3Chaos x SNK', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'],
+      case: { line: `Nostalgia is easy. Reinvention is not.`, story: `In collaboration between 三草月 3Chaos and SNK, we developed characters from Samurai Shodown, not as replicas, but as a new generation of collectibles.
+
+Keeping the spirit, while evolving the form.
+
+Blind boxes transform characters into something beyond objects, systems of anticipation, discovery, and identity.
+
+For 三草月3Chaos, this marks the beginning of their first collectible series, a step into building a new presence in the art toy space, while expanding the reach of a legacy IP.
+
+From character design to 3D modeling, packaging, and final production, Zepto Lab partnered closely with 三草月 3Chaos to build the system from the ground up.
+
+The start of a long-term IP journey…` } },
+    { slug: 'di-speaker', name: 'DI Speaker', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'],
+      case: { line: `What makes a speaker feel like it belongs in a space?`, story: `In the premium market, the experience goes beyond sound quality, it’s about how an object lives within its environment.
+
+This project explores audio as a sculptural presence, rather than just a functional device.
+
+A vertical, layered structure draws from acoustic forms, while natural materials introduce warmth and tactility.
+Instead of hiding the system, the design brings it forward as part of the form.
+
+More than a speaker, it sits naturally within the space.` } },
+    { slug: 't-soup', name: 'T-Soup', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg'],
+      case: { line: `What does a bowl of soup mean today?`, story: `T-Soup reimagines traditional Chinese soup noodles as an everyday ritual — comfort and simplicity, made contemporary. The identity draws from Chinese cultural references, simplified into one unified system across logo, packaging, and tableware.
+
+That system extends from dine-in to takeaway to home, through herbal ingredient kits that let people recreate the experience themselves.
+
+From one meal, to an ongoing habit.` } },
+    { slug: 'oppo-campus', name: 'OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg'],
+      case: { line: `Designed for OPPO's media launch, this project turns a simple gift into a moment of interaction, where light becomes the medium, and the phone becomes the key.`, story: `With light, what was hidden begins to take shape.
+
+On the surface of a quiet moon, 小欧 Xiao Ou appears.
+
+From packaging to object, every detail is designed as part of a sequence, guiding the experience from anticipation to discovery.
+
+What begins as a gift, becomes a moment.
+Technology doesn't just connect. It reveals.` } },
+    { slug: 'angel', name: 'Angel', cat: 'Product Design', f: ['product'], kind: 'rings', tint: [176, 196, 226], imgs: ['1.jpg', '2.jpg'],
+      case: { line: `Drinking water is one of the most basic daily actions, yet rarely designed.`, story: `Designed for 安吉尔 Angel, this project reimagines the water dispenser, not as an appliance, but as part of the living space.
+
+Breaking away from fixed zones and rigid placement, it moves freely within the home, blending into different environments, and reshaping how we perceive everyday objects.
+
+A vertical, monolithic form allows it to sit naturally in different environments, while a touch interface simplifies daily interaction.
+
+More than a product, it becomes part of the home.` } },
+    { slug: 'fpx-oppo-campus', name: 'FPX x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [226, 190, 176], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'],
+      case: { line: `For OPPO × FPX, we designed a collectible — a moment you can take with you.`, story: `At esports events, people don't just come to watch.
+They come to belong, to a team, to a crowd, to a shared energy.
+
+小欧 Xiao Ou becomes that presence.
+A physical expression of OPPO, something you can hold, not just experience.
+Small in scale, but carrying the atmosphere of the arena.
+
+We introduced a reversible outfit, allowing 小欧 Xiao Ou to shift between identities.
+这次 “红配绿”也可以很对
+
+Designed for the moment, and made to stay beyond it.` } },
+    { slug: 'chengdu-ifs-oppo-campus', name: 'Chengdu IFS x OPPO Campus', cat: 'Toy Design', f: ['toy'], kind: 'halftone', tint: [170, 214, 196], imgs: ['1.jpg', '2.jpg', '3.jpg', '4.jpg'],
+      case: { line: `What does connection look like in a future city?`, story: `Set in a speculative future, we reimagined 小欧 Xiao Ou not just as a mascot, but as a companion in a hyper-digital world.
+
+As cities become increasingly shaped by screens and signals, connection begins to lose its physical form.
+We wanted to bring that feeling back, making technology feel present, soft, and human again.
+
+This project transforms brand presence into something people can encounter, not just consume.
+
+Inspired by digital companions and urban installations, 小欧 Xiao Ou becomes a bridge between emotion and technology.
+
+In a world full of noise,
+小欧 Xiao Ou exists alongside you.` } },
+    { slug: 'giant-network', name: 'Giant Network', cat: 'Product Design', f: ['product'], kind: 'wave', tint: [205, 205, 208], imgs: ['1.jpg', '2.jpg'],
+      case: { line: `What if identity wasn't something you show, but something you wear?`, story: `In most workplaces, visitor access is temporary. Yet the experience is often fragmented, relying on badges, cards, or manual verification.
+
+We rethink visitor identity as a wearable interface, simple, immediate, and always present during the visit.
+
+Designed around minimal gestures, a touch, a signal, a response.
+
+Not just a pass, but a more seamless way to move through space.` } },
+    { slug: 'duanshelian', name: '断舍离', cat: 'Branding', f: ['brand'], kind: 'type', tint: [222, 206, 160], imgs: ['1.jpg'],
+      case: { line: `When a brand is built around "less," how do you help it grow?<br>For 断舍离, growth meant expanding the brand without losing the philosophy at its core.`, story: `Inspired by Refuse. Dispose. Separate., we looked at decluttering not only as a lifestyle principle, but as a way of designing, removing what is unnecessary, and giving more space to what remains.
+
+That thinking shaped a new range of everyday objects and other brand touchpoints, extending the identity beyond clothing and into everyday life.
+
+The result is not a louder brand, but a more recognizable one.
+Less, as a way to grow.` } },
   ];
   const projects = PROJECTS;
   // a project's real photos live in assets/projects/<slug>/; without any, a drawn placeholder stands in
