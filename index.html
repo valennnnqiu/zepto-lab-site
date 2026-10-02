@@ -246,6 +246,7 @@ fieldset.field { border: 0; margin: 0; padding: 0; }
 .chips input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
 .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .send { justify-self: start; border: 0; border-radius: 999px; background: var(--accent); color: #fff; font: 500 16px var(--display); padding: 16px 26px; display: inline-flex; gap: 10px; transition: transform .25s, box-shadow .25s; }
+.send:disabled { opacity: .6; }
 .send:hover { transform: translateY(-1px); box-shadow: 0 10px 24px rgba(22,39,255,.3); }
 .form-note { color: var(--muted); font-size: 14px; margin: 0; }
 .err { color: #C4321C; font-size: 14px; min-height: 1.2em; margin: 0; }
@@ -615,7 +616,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
           <div class="field"><label for="f-msg">Project <span class="req" aria-hidden="true">*</span></label><textarea id="f-msg" name="message" placeholder="A few lines about what you're building" required></textarea></div>
           <p class="err" id="f-err" role="alert"></p>
           <button class="send" type="submit">Send message <span>→</span></button>
-          <p class="form-note">Sending opens your email app with the message filled in.</p>
+          <p class="form-note" id="f-note" aria-live="polite">We reply within 48 hours.</p>
         </form>
       </div>
       <aside class="aside">
@@ -1392,7 +1393,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
   }
   tickClocks(); setInterval(tickClocks, 20000);
 
-  /* ================= contact form (validates, then opens a pre-filled email) ================= */
+  /* ================= contact form (validates, then sends) ================= */
   const form = document.getElementById('form');
   form.addEventListener('submit', e => {
     e.preventDefault();
@@ -1402,10 +1403,22 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     const msg = form.querySelector('#f-msg');
     if (!msg.value.trim()) { err.textContent = 'Add a few lines about your project so we can prepare for the call.'; msg.focus(); return; }
     err.textContent = '';
-    // no backend: hand the filled-in message to the visitor's email app
+    // send through FormSubmit (delivers to the studio inbox); if that fails, fall back to the visitor's email app
     const d = new FormData(form), types = d.getAll('type').join(', ');
-    const lines = [['Name', d.get('name')], ['Email', d.get('email')], ['Company', d.get('company')], ['Needs', types], ['Budget', d.get('budget')], ['Timeline', d.get('timeline')]].filter(([, v]) => v && v.trim()).map(([k, v]) => `${k}: ${v.trim()}`);
-    location.href = `mailto:valen.jy.qiu@gmail.com?subject=${encodeURIComponent(`New project: ${(d.get('company') || d.get('name')).trim()}`)}&body=${encodeURIComponent(`${lines.join('\n')}\n\n${d.get('message').trim()}`)}`;
+    const subject = `New project: ${(d.get('company') || d.get('name')).trim()}`;
+    const fields = [['Name', d.get('name')], ['Email', d.get('email')], ['Company', d.get('company')], ['Needs', types], ['Budget', d.get('budget')], ['Timeline', d.get('timeline')]].filter(([, v]) => v && v.trim()).map(([k, v]) => [k, v.trim()]);
+    const btn = form.querySelector('.send'), note = document.getElementById('f-note'), label = btn.innerHTML;
+    btn.disabled = true; btn.textContent = 'Sending…';
+    const body = Object.fromEntries(fields); body.Message = d.get('message').trim();
+    Object.assign(body, { _subject: subject, _replyto: d.get('email').trim(), _template: 'table', _captcha: 'false' });
+    fetch('https://formsubmit.co/ajax/valen.jy.qiu@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
+      .then(r => r.json()).then(j => { if (String(j.success) !== 'true') throw new Error(j.message || 'failed'); })
+      .then(() => { form.reset(); btn.innerHTML = 'Sent ✓'; note.textContent = "Thanks, your message is on its way. We'll reply within 48 hours."; setTimeout(() => { btn.disabled = false; btn.innerHTML = label; }, 4000); })
+      .catch(() => {
+        btn.disabled = false; btn.innerHTML = label;
+        note.innerHTML = 'That didn\'t go through. Your email app should open with the message filled in, or write to <a href="mailto:valen.jy.qiu@gmail.com">valen.jy.qiu@gmail.com</a>.';
+        location.href = `mailto:valen.jy.qiu@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`${fields.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\n${body.Message}`)}`;
+      });
   });
 
   /* ================= loop ================= */
