@@ -1413,7 +1413,7 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     Object.assign(body, { _subject: subject, _replyto: d.get('email').trim(), _template: 'table', _captcha: 'false' });
     fetch('https://formsubmit.co/ajax/valen.jy.qiu@gmail.com', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
       .then(r => r.json()).then(j => { if (String(j.success) !== 'true') throw new Error(j.message || 'failed'); })
-      .then(() => { form.reset(); btn.innerHTML = 'Sent ✓'; note.textContent = "Thanks, your message is on its way. We'll reply within 48 hours."; setTimeout(() => { btn.disabled = false; btn.innerHTML = label; }, 4000); })
+      .then(() => { form.reset(); btn.innerHTML = 'Sent'; note.textContent = "Thanks, your message is on its way. We'll reply within 48 hours."; setTimeout(() => { btn.disabled = false; btn.innerHTML = label; }, 4000); })
       .catch(() => {
         btn.disabled = false; btn.innerHTML = label;
         note.innerHTML = 'That didn\'t go through. Your email app should open with the message filled in, or write to <a href="mailto:valen.jy.qiu@gmail.com">valen.jy.qiu@gmail.com</a>.';
