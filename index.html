@@ -12,6 +12,14 @@
 <link rel="icon" href="favicon-dark.png" type="image/png" media="(prefers-color-scheme: dark)">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <title>Zepto Lab</title>
+<!-- Google Analytics. Page views are sent from show() in the main script, one per page or case study, because the site is a single page. -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3LNRZ4TTX3"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-3LNRZ4TTX3', { send_page_view: false });
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap">
@@ -1181,6 +1189,9 @@ footer { justify-self: stretch; display: flex; justify-content: space-between; g
     if (route === 'home') { requestAnimationFrame(() => { sizeBelt(); paintAll(); }); }
     observeReveals();
     document.title = route === 'home' ? 'Zepto Lab' : `${labels[route] || projectBySlug(t.slug)?.name || ''} · Zepto Lab`;
+    // analytics: each page and case study counts as its own page view
+    const path = route === 'home' ? '/' : route === 'case' ? `/work/${(projectBySlug(t.slug) || PROJECTS[0]).slug}` : `/${route}`;
+    if (window.gtag) gtag('event', 'page_view', { page_title: document.title, page_path: path, page_location: location.origin + path });
   }
   let busy = false;
   function go(hash, instant) {
